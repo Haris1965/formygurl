@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Nayyab · My Everlasting Sunflower 🌻</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fff5e6 0%, #feebcc 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Quicksand', system-ui, 'Georgia', 'Times New Roman', serif;
+            padding: 24px;
+        }
+
+        .card {
+            max-width: 850px;
+            width: 100%;
+            background: rgba(255, 248, 235, 0.92);
+            backdrop-filter: blur(3px);
+            border-radius: 72px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(253, 216, 94, 0.3);
+            padding: 28px 20px 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .music-control {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: rgba(255, 245, 210, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 60px;
+            padding: 8px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #ffd966;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 10;
+            font-weight: 500;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .music-control:hover {
+            background: #ffe6b3;
+            transform: scale(1.02);
+        }
+        .music-icon {
+            font-size: 1.5rem;
+        }
+        .music-status {
+            font-size: 0.8rem;
+            color: #8b5a2b;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 5px;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 56px;
+            filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.15));
+            display: block;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        
+        canvas:active {
+            transform: scale(0.98);
+        }
+
+        .message-box {
+            background: #fffcf5;
+            border-radius: 48px;
+            padding: 28px 32px;
+            margin: 20px 20px 0 20px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255,255,240,0.9);
+            border: 1px solid #ffe1a0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .poem-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d2861a, #f5b042);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+            font-style: italic;
+        }
+
+        .poem-lines {
+            font-size: 1.2rem;
+            line-height: 1.25;          /* reduced space between lines */
+            font-style: italic;          /* tilted / slanted font */
+            color: #4a2e12;
+            white-space: pre-line;
+            font-weight: 500;
+            margin: 8px 0;
+            letter-spacing: 0.02em;
+        }
+
+        .poem-signature {
+            margin-top: 22px;
+            font-size: 1.1rem;
+            color: #c27e3a;
+            border-top: 1px dashed #ffda99;
+            padding-top: 18px;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+
+        @media (max-width: 550px) {
+            .message-box { margin: 12px 8px 0 8px; padding: 20px 18px; }
+            .poem-title { font-size: 1.6rem; }
+            .poem-lines { font-size: 1rem; line-height: 1.2; }
+            .card { padding: 18px 12px 32px 12px; }
+            .music-control { top: 12px; right: 12px; padding: 5px 12px; }
+        }
+        
+        .message-box {
+            animation: gentleFloat 3s ease-in-out infinite alternate;
+        }
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-4px); }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="music-control" id="musicControl">
+        <span class="music-icon">🎵</span>
+        <span class="music-status" id="musicStatus">Music off</span>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="sunflowerCanvas" width="750" height="600" aria-label="Two sunflowers facing each other"></canvas>
+    </div>
+    <div class="message-box">
+        <div class="poem-title">
+            🌻 Nayyab · To My Everlasting Sunflower 🌻
+        </div>
+        <div class="poem-lines">
+            Two blooms that leaned across the sunlit air,<br>
+            Your golden gaze, my silent prayer.<br>
+            Like petals turned to find the light,<br>
+            I found my home in you each night.<br>
+            <br>
+            For every storm that passed us by,<br>
+            I'll grow again beneath your sky.<br>
+            Forgive me, love — and stay right here,<br>
+            Your sunflower heart, forever near.
+        </div>
+        <div class="poem-signature">
+            ✨ Forever rooting for you — Your Sun ✨
+        </div>
+    </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+    <!-- REPLACE "sunflower-melody.mp3" WITH YOUR MUSIC FILE NAME -->
+    <source src="sunflower-melody.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    (function() {
+        const canvas = document.getElementById('sunflowerCanvas');
+        const ctx = canvas.getContext('2d');
+        const width = 750, height = 600;
+        canvas.width = width;
+        canvas.height = height;
+        
+        // ----- TWO SUNFLOWERS FACING EACH OTHER (romantic leaning) -----
+        function drawSunflower(x, y, sizeScale, facingBias, phaseId) {
+            const petalCount = 18;
+            const innerRadius = 22 * sizeScale;
+            const petalLength = 38 * sizeScale;
+            const petalWidth = 12 * sizeScale;
+            const now = performance.now() / 1000;
+            const sway = Math.sin(now * 1.2 + phaseId) * 0.2;
+            
+            for (let i = 0; i < petalCount; i++) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(facingBias * 0.38 + sway * 0.2);
+                
+                const angle = (i / petalCount) * Math.PI * 2;
+                const px = Math.cos(angle) * (innerRadius + 3);
+                const py = Math.sin(angle) * (innerRadius + 3);
+                ctx.save();
+                ctx.translate(px, py);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.ellipse(0, petalLength * 0.7, petalWidth, petalLength, 0, 0, Math.PI * 2);
+                const grad = ctx.createLinearGradient(-petalWidth/2, 0, petalWidth/2, petalLength);
+                grad.addColorStop(0, '#FFE68F');
+                grad.addColorStop(1, '#F5AC2C');
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.strokeStyle = '#D98A1A';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.restore();
+                ctx.restore();
+            }
+            
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.beginPath();
+            ctx.arc(0, 0, innerRadius, 0, Math.PI * 2);
+            const gradCenter = ctx.createRadialGradient(-5, -5, 4, 0, 0, innerRadius);
+            gradCenter.addColorStop(0, '#9B6B3C');
+            gradCenter.addColorStop(1, '#5A3516');
+            ctx.fillStyle = gradCenter;
+            ctx.fill();
+            ctx.fillStyle = '#DBA959';
+            for (let s = 0; s < 70; s++) {
+                const r = Math.random() * (innerRadius - 3);
+                const a = Math.random() * Math.PI * 2;
+                const dx = Math.cos(a) * r;
+                const dy = Math.sin(a) * r;
+                ctx.beginPath();
+                ctx.arc(dx, dy, 1.2 * sizeScale, 0, Math.PI*2);
+                ctx.fill();
+            }
+            ctx.beginPath();
+            ctx.arc(-5, -5, 6, 0, Math.PI*2);
+            ctx.fillStyle = 'rgba(255, 230, 150, 0.3)';
+            ctx.fill();
+            ctx.restore();
+        }
+        
+        function drawStemsAndLeaves() {
+            // Left stem
+            ctx.beginPath();
+            ctx.moveTo(250, 320);
+            ctx.quadraticCurveTo(230, 450, 210, 570);
+            ctx.lineTo(225, 570);
+            ctx.quadraticCurveTo(245, 455, 260, 320);
+            ctx.fillStyle = '#5c8740';
+            ctx.fill();
+            ctx.fillStyle = '#3e6826';
+            ctx.beginPath();
+            ctx.moveTo(250, 320);
+            ctx.quadraticCurveTo(238, 445, 218, 565);
+            ctx.lineTo(224, 565);
+            ctx.quadraticCurveTo(245, 445, 256, 320);
+            ctx.fill();
+            // left leaf
+            ctx.save();
+            ctx.translate(215, 440);
+            ctx.rotate(-0.5);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 28, 12, 0, 0, Math.PI*2);
+            ctx.fillStyle = '#629a3a';
+            ctx.fill();
+            ctx.fillStyle = '#477a28';
+            ctx.beginPath();
+            ctx.ellipse(-2, -1, 22, 9, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.restore();
+            
+            // Right stem
+            ctx.beginPath();
+            ctx.moveTo(500, 320);
+            ctx.quadraticCurveTo(520, 450, 540, 570);
+            ctx.lineTo(525, 570);
+            ctx.quadraticCurveTo(505, 455, 490, 320);
+            ctx.fillStyle = '#5c8740';
+            ctx.fill();
+            ctx.fillStyle = '#3e6826';
+            ctx.beginPath();
+            ctx.moveTo(500, 320);
+            ctx.quadraticCurveTo(512, 445, 532, 565);
+            ctx.lineTo(526, 565);
+            ctx.quadraticCurveTo(505, 445, 494, 320);
+            ctx.fill();
+            // right leaf
+            ctx.save();
+            ctx.translate(542, 445);
+            ctx.rotate(0.55);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 30, 13, 0, 0, Math.PI*2);
+            ctx.fillStyle = '#629a3a';
+            ctx.fill();
+            ctx.fillStyle = '#477a28';
+            ctx.beginPath();
+            ctx.ellipse(2, -1, 24, 9, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.beginPath();
+            ctx.moveTo(340, 510);
+            ctx.quadraticCurveTo(375, 485, 400, 515);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#7ba84a';
+            ctx.stroke();
+        }
+        
+        let particles = [];
+        const PARTICLE_COUNT = 45;
+        
+        class Particle {
+            constructor(x, y, vx, vy, radius, color, alpha) {
+                this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+                this.radius = radius; this.color = color; this.alpha = alpha;
+            }
+        }
+        
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const radius = 1.5 + Math.random() * 4;
+                let x = 80 + Math.random() * (width - 160);
+                let y = 80 + Math.random() * (height - 150);
+                const vx = (Math.random() - 0.5) * 0.4;
+                const vy = (Math.random() - 0.5) * 0.3 - 0.1;
+                const colors = ['#FFD966', '#FFB347', '#F7D06E', '#FCD48D', '#FFE0A3'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new Particle(x, y, vx, vy, radius, color, 0.4 + Math.random()*0.5));
+            }
+        }
+        
+        function updateParticles() {
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x - p.radius < 5) { p.x = 5 + p.radius; p.vx = -p.vx * 0.9; }
+                if (p.x + p.radius > width - 5) { p.x = width - 5 - p.radius; p.vx = -p.vx * 0.9; }
+                if (p.y - p.radius < 20) { p.y = 20 + p.radius; p.vy = -p.vy * 0.9; }
+                if (p.y + p.radius > height - 25) { p.y = height - 25 - p.radius; p.vy = -p.vy * 0.9; }
+                if (Math.random() < 0.02) {
+                    p.vx += (Math.random() - 0.5) * 0.15;
+                    p.vy += (Math.random() - 0.5) * 0.12;
+                }
+            }
+        }
+        
+        function drawParticles() {
+            for (let p of particles) {
+                ctx.save();
+                ctx.globalAlpha = p.alpha * 0.8;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = "#ffcf7a";
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.restore();
+            }
+        }
+        
+        function drawBackground() {
+            const grad = ctx.createLinearGradient(0, 0, 0, height);
+            grad.addColorStop(0, '#feebc0');
+            grad.addColorStop(0.6, '#fbe1ab');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+            ctx.globalAlpha = 0.15;
+            for (let i=0; i<12; i++) {
+                ctx.beginPath();
+                ctx.moveTo(375, 220);
+                const angle = (i/12)*Math.PI*2;
+                const dx = Math.cos(angle)*180;
+                const dy = Math.sin(angle)*120;
+                ctx.lineTo(375 + dx, 220 + dy);
+                ctx.lineTo(375 + dx*0.6, 220 + dy*0.6);
+                ctx.fillStyle = '#fff0c0';
+                ctx.fill();
+            }
+            ctx.globalAlpha = 0.2;
+            ctx.fillStyle = '#fff2cf';
+            ctx.beginPath();
+            ctx.ellipse(375, 200, 130, 90, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+        
+        function drawExtraRomance(nowSec) {
+            for (let i = 0; i < 8; i++) {
+                let t = nowSec * 1.5 + i;
+                let x = 350 + Math.sin(t) * 70;
+                let y = 210 + Math.cos(t*1.2) * 45;
+                ctx.beginPath();
+                ctx.arc(x, y, 2 + Math.sin(t*4)*0.8, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(255, 140, 100, ${0.3 + Math.sin(t)*0.2})`;
+                ctx.fill();
+            }
+            for (let i=0; i<14; i++) {
+                let x = 330 + i*7;
+                let y = 425 + Math.sin(nowSec*2.2 + i)*7;
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI*2);
+                ctx.fillStyle = '#F1C38F';
+                ctx.fill();
+                ctx.fillStyle = '#E8A735';
+                ctx.beginPath();
+                ctx.arc(x-1, y-1, 1, 0, Math.PI*2);
+                ctx.fill();
+            }
+            ctx.fillStyle = 'rgba(255,210,110,0.3)';
+            for (let i=0;i<45;i++) {
+                let x = 280 + Math.sin(nowSec*0.8 + i)*80;
+                let y = 380 + Math.cos(nowSec*0.6 + i)*60;
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI*2);
+                ctx.fill();
+            }
+        }
+        
+        function drawMiniFloralAccents(nowSec) {
+            const positions = [[320, 490], [430, 500], [280, 530], [470, 535], [355, 555], [395, 565]];
+            for (let idx = 0; idx < positions.length; idx++) {
+                let [px, py] = positions[idx];
+                let size = 0.5;
+                let phase = idx * 0.9;
+                let wiggle = Math.sin(nowSec * 1.4 + phase) * 0.1;
+                ctx.save();
+                ctx.translate(px, py);
+                ctx.rotate(wiggle);
+                for (let p=0; p<6; p++) {
+                    let angle = (p/6)*Math.PI*2;
+                    let xp = Math.cos(angle) * 6 * size;
+                    let yp = Math.sin(angle) * 6 * size;
+                    ctx.beginPath();
+                    ctx.ellipse(xp, yp, 2.5*size, 5*size, angle, 0, Math.PI*2);
+                    ctx.fillStyle = '#FFD99B';
+                    ctx.fill();
+                }
+                ctx.beginPath();
+                ctx.arc(0, 0, 3*size, 0, Math.PI*2);
+                ctx.fillStyle = '#EFB054';
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        
+        let animFrame = null;
+        let startTime = performance.now() / 1000;
+        
+        function animate() {
+            const nowSec = (performance.now() / 1000) - startTime;
+            drawBackground();
+            drawStemsAndLeaves();
+            drawSunflower(250, 320, 0.98, 0.42, 1.2);
+            drawSunflower(500, 320, 0.98, -0.42, 2.4);
+            updateParticles();
+            drawParticles();
+            drawMiniFloralAccents(nowSec);
+            drawExtraRomance(nowSec);
+            animFrame = requestAnimationFrame(animate);
+        }
+        
+        function startAnimation() {
+            initParticles();
+            startTime = performance.now() / 1000;
+            if (animFrame) cancelAnimationFrame(animFrame);
+            animFrame = requestAnimationFrame(animate);
+        }
+        
+        // ------- MUSIC CONTROLLER -------
+        const audio = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicStatusSpan = document.getElementById('musicStatus');
+        let musicPlaying = false;
+        
+        function updateMusicUI() {
+            if (musicPlaying) {
+                musicStatusSpan.textContent = 'Melody ♪';
+                musicControl.style.background = "#ffe6b3";
+            } else {
+                musicStatusSpan.textContent = 'Music off';
+                musicControl.style.background = "rgba(255, 245, 210, 0.9)";
+            }
+        }
+        
+        function playMusic() {
+            audio.play().then(() => { musicPlaying = true; updateMusicUI(); }).catch(() => { musicPlaying = false; updateMusicUI(); });
+        }
+        
+        function pauseMusic() {
+            audio.pause();
+            musicPlaying = false;
+            updateMusicUI();
+        }
+        
+        function toggleMusic() {
+            if (musicPlaying) pauseMusic();
+            else playMusic();
+        }
+        
+        musicControl.addEventListener('click', toggleMusic);
+        canvas.addEventListener('click', () => { if (!musicPlaying) playMusic(); });
+        
+        window.addEventListener('load', () => {
+            startAnimation();
+            audio.volume = 0.55;
+            audio.loop = true;
+            playMusic();
+        });
+    })();
+</script>
+</body>
+</html>
